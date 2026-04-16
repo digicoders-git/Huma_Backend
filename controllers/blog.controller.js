@@ -31,7 +31,9 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    if (req.file) req.body.coverImage = req.file.path;
+    if (req.file) {
+      req.body.coverImage = `public/uploads/admins/${req.file.filename}`;
+    }
     const blog = await Blog.create(req.body);
     res.status(201).json({ success: true, data: blog });
   } catch (error) {
@@ -41,7 +43,9 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    if (req.file) req.body.coverImage = req.file.path;
+    if (req.file) {
+      req.body.coverImage = `public/uploads/admins/${req.file.filename}`;
+    }
     const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!blog) return res.status(404).json({ success: false, message: "Blog not found" });
     res.json({ success: true, data: blog });
@@ -49,6 +53,7 @@ exports.update = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 exports.remove = async (req, res) => {
   try {

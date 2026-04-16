@@ -8,13 +8,17 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files for local uploads
 const path = require("path");
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // Routes
@@ -30,6 +34,8 @@ app.use("/api/enquiry", require("./routes/enquiry.routes"));
 app.use("/api/free-consultation", require("./routes/freeConsultation.routes"));
 app.use("/api/appointment", require("./routes/appointment.routes"));
 app.use("/api/department", require("./routes/department.routes"));
+app.use("/api/testimonial", require("./routes/testimonial.routes"));
+
 
 // Health check
 app.get("/", (req, res) => res.json({ message: "Healing Escape API running" }));
@@ -43,3 +49,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+
+ 

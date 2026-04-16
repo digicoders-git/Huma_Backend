@@ -5,7 +5,9 @@ const {
   getAppointmentById,
   updateAppointment,
   updateAppointmentStatus,
-  deleteAppointment
+  deleteAppointment,
+  bulkUpdateStatus,
+  bulkDeleteAppointments
 } = require("../controllers/appointment.controller");
 
 // Optionally use protect middleware if you want to secure these endpoints for admin only
@@ -13,6 +15,8 @@ const {
 
 router.post("/", createAppointment);
 router.get("/", getAllAppointments);
+router.post("/bulk-status", bulkUpdateStatus);
+router.post("/bulk-delete", bulkDeleteAppointments);
 router.get("/:id", getAppointmentById);
 router.put("/:id", updateAppointment);
 router.patch("/:id/status", updateAppointmentStatus);

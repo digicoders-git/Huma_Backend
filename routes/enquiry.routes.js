@@ -1,9 +1,11 @@
 const router = require("express").Router();
-const { create, getAll, updateStatus } = require("../controllers/enquiry.controller");
-const { protect } = require("../middleware/auth.middleware");
+const { create, getAll, updateStatus, remove, bulkRemove, bulkUpdateStatus } = require("../controllers/enquiry.controller");
 
-router.post("/create", create);                          // public
-router.get("/all", protect, getAll);                     // admin only
-router.patch("/status/:id", protect, updateStatus);      // admin only
+router.post("/create", create);
+router.get("/all", getAll);
+router.patch("/status/:id", updateStatus);
+router.delete("/delete/:id", remove);
+router.post("/bulk-delete", bulkRemove);
+router.post("/bulk-status", bulkUpdateStatus);
 
 module.exports = router;

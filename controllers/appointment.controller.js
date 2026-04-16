@@ -78,3 +78,40 @@ exports.deleteAppointment = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+// Bulk update status
+exports.bulkUpdateStatus = async (req, res) => {
+  try {
+    const { ids, status } = req.body;
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, message: "No appointment IDs provided" });
+    }
+    if (!['Scheduled', 'Completed', 'Ongoing', 'Canceled'].includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
+
+    await Appointment.updateMany(
+      { _id: { $in: ids } },
+      { status }
+    );
+
+    res.status(200).json({ success: true, message: "Statuses updated successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Bulk delete appointments
+exports.bulkDeleteAppointments = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, message: "No appointment IDs provided" });
+    }
+
+    await Appointment.deleteMany({ _id: { $in: ids } });
+
+    res.status(200).json({ success: true, message: "Appointments deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

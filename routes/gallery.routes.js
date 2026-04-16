@@ -1,11 +1,13 @@
 const router = require("express").Router();
-const { getAll, getById, create, remove } = require("../controllers/gallery.controller");
+const { getAll, getById, create, update, remove } = require("../controllers/gallery.controller");
 const { protect } = require("../middleware/auth.middleware");
-const { upload } = require("../config/cloudinary");
+const localUpload = require("../config/localUpload");
 
 router.get("/all", getAll);
 router.get("/:id", getById);
-router.post("/create", protect, upload.single("image"), create);
+router.post("/create", protect, localUpload.single("image"), create);
+router.put("/:id", protect, localUpload.single("image"), update);
 router.delete("/delete/:id", protect, remove);
 
 module.exports = router;
+

@@ -2,7 +2,7 @@ const Speciality = require("../models/Speciality.model");
 
 exports.getAll = async (req, res) => {
   try {
-    const specialities = await Speciality.find({ isActive: true }).sort({ name: 1 });
+    const specialities = await Speciality.find().sort({ createdAt: -1 });
     res.json({ success: true, data: specialities });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -21,7 +21,13 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    if (req.file) req.body.image = req.file.path;
+    if (req.file) req.body.image = `/uploads/${req.file.filename}`;
+    
+    // Handle whenRecommended if sent as string (from FormData)
+    if (typeof req.body.whenRecommended === 'string') {
+        req.body.whenRecommended = req.body.whenRecommended.split(',').map(s => s.trim());
+    }
+
     const speciality = await Speciality.create(req.body);
     res.status(201).json({ success: true, data: speciality });
   } catch (error) {
@@ -31,7 +37,12 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    if (req.file) req.body.image = req.file.path;
+    if (req.file) req.body.image = `/uploads/${req.file.filename}`;
+
+    if (typeof req.body.whenRecommended === 'string') {
+        req.body.whenRecommended = req.body.whenRecommended.split(',').map(s => s.trim());
+    }
+
     const speciality = await Speciality.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!speciality) return res.status(404).json({ success: false, message: "Speciality not found" });
     res.json({ success: true, data: speciality });
