@@ -22,8 +22,9 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `public/uploads/admins/${req.file.filename}`;
+      req.body.image = `/uploads/${req.file.filename}`;
     }
+
     const testimonial = await Testimonial.create(req.body);
     res.status(201).json({ success: true, data: testimonial });
   } catch (error) {
@@ -34,8 +35,9 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `public/uploads/admins/${req.file.filename}`;
+      req.body.image = `/uploads/${req.file.filename}`;
     }
+
     const testimonial = await Testimonial.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!testimonial) return res.status(404).json({ success: false, message: "Testimonial not found" });
     res.json({ success: true, data: testimonial });
