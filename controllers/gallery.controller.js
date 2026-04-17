@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
   console.log("Gallery Create Request File:", req.file);
   try {
     if (req.file) {
-      req.body.image = `public/uploads/admins/${req.file.filename}`;
+      req.body.image = `/uploads/${req.file.filename}`;
     }
     const gallery = await Gallery.create(req.body);
     res.status(201).json({ success: true, data: gallery });
@@ -42,7 +42,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `public/uploads/admins/${req.file.filename}`;
+      req.body.image = `/uploads/${req.file.filename}`;
     }
     const gallery = await Gallery.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!gallery) return res.status(404).json({ success: false, message: "Gallery item not found" });

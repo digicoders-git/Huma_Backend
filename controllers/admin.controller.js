@@ -70,7 +70,7 @@ exports.updateProfile = async (req, res) => {
 
     // If a new image was uploaded locally
     if (req.file) {
-      updates.profilePhoto = `/public/uploads/admins/${req.file.filename}`;
+      updates.profilePhoto = `/uploads/${req.file.filename}`;
     }
 
     // Don't allow password update through this route

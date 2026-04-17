@@ -5,12 +5,13 @@ const blogSchema = new mongoose.Schema(
     title: { type: String, required: true },
     slug: { type: String, unique: true },
     content: { type: String, required: true },
+    introduction: { type: String },
     excerpt: { type: String },
     coverImage: { type: String },
     tags: [{ type: String }],
     category: { type: String },
     isPublished: { type: Boolean, default: false },
-    author: { type: String, default: "Healing Escape" },
+    author: { type: String },
   },
   { timestamps: true }
 );

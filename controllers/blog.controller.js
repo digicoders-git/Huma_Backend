@@ -32,7 +32,7 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     if (req.file) {
-      req.body.coverImage = `public/uploads/admins/${req.file.filename}`;
+      req.body.coverImage = `/uploads/${req.file.filename}`;
     }
     const blog = await Blog.create(req.body);
     res.status(201).json({ success: true, data: blog });
@@ -44,7 +44,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     if (req.file) {
-      req.body.coverImage = `public/uploads/admins/${req.file.filename}`;
+      req.body.coverImage = `/uploads/${req.file.filename}`;
     }
     const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!blog) return res.status(404).json({ success: false, message: "Blog not found" });

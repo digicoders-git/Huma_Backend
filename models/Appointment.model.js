@@ -5,13 +5,15 @@ const appointmentSchema = new mongoose.Schema(
     name: { type: String, required: true },
     code: { type: String }, // e.g. #PT-2035-001
     phone: { type: String, required: true },
-    doctor: { type: String, required: true },
-    specialty: { type: String },
-    type: { type: String, enum: ['Consultation', 'Follow-up', 'Surgery', 'Telemedicine'], default: 'Consultation' },
+    doctor: { type: String }, // Optional for quick appointments
+    specialty: { type: String }, // Can be used for Department
+    department: { type: String }, // Added for clarity
+    type: { type: String, enum: ['Consultation', 'Follow-up', 'Surgery', 'Telemedicine', 'Quick Appointment'], default: 'Consultation' },
     notes: { type: String },
     date: { type: String, required: true },
-    time: { type: String, required: true },
-    status: { type: String, enum: ['Scheduled', 'Completed', 'Ongoing', 'Canceled'], default: 'Scheduled' },
+    time: { type: String }, // Optional for quick appointments
+    status: { type: String, enum: ['Scheduled', 'Completed', 'Ongoing', 'Canceled', 'Pending'], default: 'Pending' },
+    fees: { type: Number, default: 500 },
     avatar: { type: String } // optional for UI avatar
   },
   { timestamps: true }
@@ -21,7 +23,7 @@ const appointmentSchema = new mongoose.Schema(
 appointmentSchema.pre('save', function(next) {
   if (!this.code) {
     const year = new Date().getFullYear();
-    const randomNum = Math.floor(100 + Math.random() * 900);
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
     this.code = `#PT-${year}-${randomNum}`;
   }
   next();

@@ -9,7 +9,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"],
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000", "http://127.0.0.1:5173", "http://127.0.0.1:5174" , "https://huma-website-opal.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
@@ -35,6 +35,7 @@ app.use("/api/free-consultation", require("./routes/freeConsultation.routes"));
 app.use("/api/appointment", require("./routes/appointment.routes"));
 app.use("/api/department", require("./routes/department.routes"));
 app.use("/api/testimonial", require("./routes/testimonial.routes"));
+app.use("/api/announcement", require("./routes/announcement.routes"));
 
 
 // Health check

@@ -36,10 +36,10 @@ const processFilesAndBody = (req) => {
   
   if (req.files) {
     if (req.files.avatar && req.files.avatar.length > 0) {
-      req.body.avatar = `/public/uploads/admins/${req.files.avatar[0].filename}`;
+      req.body.avatar = `/uploads/${req.files.avatar[0].filename}`;
     }
     if (req.files.certifications && req.files.certifications.length > 0) {
-      req.body.certifications = req.files.certifications.map(file => `/public/uploads/admins/${file.filename}`);
+      req.body.certifications = req.files.certifications.map(file => `/uploads/${file.filename}`);
     }
   }
 };

@@ -12,15 +12,23 @@ const doctorSchema = new mongoose.Schema(
     phone: { type: String, required: true },
     email: { type: String },
     address: { type: String },
+    city: { type: String, default: "Lucknow" },
     emergencyName: { type: String },
     emergencyPhone: { type: String },
     
     // Professional Info
     department: { type: String },
+    designation: { type: String, default: "Senior Consultant" },
+    qualification: { type: String, default: "MBBS, MD" },
     specialization: { type: String },
     workType: { type: String, enum: ['Full Time', 'Part Time'], default: 'Full Time' },
     startDate: { type: Date },
+    experience: { type: Number },
+    expertise: [{ type: String }],
+    procedures: [{ type: String }],
+    whyChoose: [{ type: String }],
     salary: { type: String },
+    consultationFee: { type: Number, default: 500 },
     
     // Licenses & Certifications
     licenseNumber: { type: String },
