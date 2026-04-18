@@ -1,22 +1,14 @@
 const router = require("express").Router();
 const { getAll, getById, create, update, remove, updateStatus } = require("../controllers/hospital.controller");
 const { protect } = require("../middleware/auth.middleware");
-const multer = require("multer");
-const path = require("path");
-
-const storage = multer.diskStorage({
-  destination: "./uploads/",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-  },
-});
-const upload = multer({ storage });
+const localUpload = require("../config/localUpload");
 
 router.get("/all", getAll);
 router.get("/:id", getById);
-router.post("/create", upload.single("image"), create);
-router.put("/update/:id", upload.single("image"), update);
-router.patch("/status/:id", updateStatus);
-router.delete("/delete/:id", remove);
+router.post("/create", protect, localUpload.single("image"), create);
+router.put("/update/:id", protect, localUpload.single("image"), update);
+router.patch("/status/:id", protect, updateStatus);
+router.delete("/delete/:id", protect, remove);
 
 module.exports = router;
+

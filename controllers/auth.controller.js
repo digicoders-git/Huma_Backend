@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
 
     let profilePhoto = "";
     if (req.file) {
-      profilePhoto = `/public/uploads/admins/${req.file.filename}`;
+      profilePhoto = `/uploads/${req.file.filename}`;
     }
 
     const admin = await Admin.create({

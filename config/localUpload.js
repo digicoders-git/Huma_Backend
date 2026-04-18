@@ -2,8 +2,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Ensure the upload directory exists in the root
-const uploadDir = path.join(__dirname, "../uploads");
+// Ensure the upload directory exists (absolute path from project root)
+const uploadDir = path.resolve(__dirname, "../uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -19,14 +19,14 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = /jpeg|jpg|png|webp/;
+  const allowedFileTypes = /jpeg|jpg|png|webp|gif/;
   const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedFileTypes.test(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb(new Error("Only .png, .jpg, .jpeg and .webp format allowed!"));
+    cb(new Error("Only .png, .jpg, .jpeg, .gif and .webp format allowed!"));
   }
 };
 
@@ -37,3 +37,4 @@ const localUpload = multer({
 });
 
 module.exports = localUpload;
+

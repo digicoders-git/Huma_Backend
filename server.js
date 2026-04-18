@@ -20,6 +20,12 @@ const path = require("path");
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Additional middleware to ensure images are accessible across origins
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+});
+
 
 // Routes
 app.use("/api/admin", require("./routes/admin.routes"));
