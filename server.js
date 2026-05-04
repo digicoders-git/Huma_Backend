@@ -9,8 +9,28 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000", "http://127.0.0.1:5173", "http://127.0.0.1:5174" , "https://huma-website-opal.vercel.app" , "https://huma-admin-panel.vercel.app"],
-  credentials: true
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:3000",
+      "http://127.0.0.1:5173",
+      "http://127.0.0.1:5174",
+      "https://huma-website-opal.vercel.app",
+      "https://huma-admin-panel.vercel.app",
+      "https://admin.humaneurologycentre.com",
+      "https://www.humaneurologycentre.com",
+      "https://humaneurologycentre.com"
+    ];
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
